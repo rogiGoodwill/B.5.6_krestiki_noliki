@@ -39,14 +39,13 @@ def play():
             gamer = 'X'
         step_remain = move(gamer, step_remain)
         show_field()
-        if check_draw(step_remain):
-            print('Ходы закончились. Ничья!')
-            break
-        elif check_win(gamer):
+        if check_win(gamer):
             print('Игра окончена')
             print('Победил игрок', gamer)	
             break	
-
+        elif check_draw(step_remain):
+            print('Ходы закончились. Ничья!')
+            break
 
 # Функция проверки выиграл игрок или нет
 def check_win(player):
