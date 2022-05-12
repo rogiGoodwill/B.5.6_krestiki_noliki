@@ -4,6 +4,7 @@ def main():
 	
 # Функция запроса размера игрового поля
 def get_field_size():
+    print('Добро пожаловать в игру "Крестики-нолики"!')	
     while True:
         x = input('Выберите размер поля по вертикали и горизонтали в диапазоне от 3 до 5: ')
         if x != '' and x.isdigit():
@@ -28,8 +29,7 @@ def show_field():
 	
 	
 # Запуск игры
-def play():
-    print('Добро пожаловать в игру "Крестики-нолики"!')
+def play():    
     gamer = 'O'
     step_remain = field_size**2		
     while True:
