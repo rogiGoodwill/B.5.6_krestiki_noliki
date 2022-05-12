@@ -4,7 +4,7 @@ def main():
 	
 # Функция запроса размера игрового поля
 def get_field_size():
-    print('Добро пожаловать в игру "Крестики-нолики"!')	
+    print('Добро пожаловать в игру "Крестики-нолики"!')
     while True:
         x = input('Выберите размер поля по вертикали и горизонтали в диапазоне от 3 до 5: ')
         if x != '' and x.isdigit():
@@ -86,9 +86,12 @@ def move(player, max_steps):
             if len(lst) != 2:
                 print('Введены неверные координаты, попробуйте еще раз.')
             else:
-                break
+                if check_coordinates_type(lst[0]) and check_coordinates_type(lst[1]):
+                    break
+                else:
+                    print('Координаты должны состоять только из целых чисел, попробуйте еще раз.')
         x, y = list(map(lambda i: int(i) - 1, lst))
-        if x in range(field_size) and y in range(field_size):
+        if check_coordinates_range(x, field_size) and check_coordinates_range(y, field_size):
             if field[y][x] == '-':
                 field[y][x] = player
                 max_steps -= 1
@@ -98,11 +101,15 @@ def move(player, max_steps):
         else:
             print('Ваши координаты выходят за пределы игрового поля. Попробуйте еще раз.')
 
-			
+def check_coordinates_type(coord):
+    return coord.isdigit()
+    
+
+def check_coordinates_range(coord, field_size):
+    return coord in range(field_size)
+	
 if __name__ == '__main__':
     field_size = get_field_size()
     field = fill_field()
     show_field()
-    main()
-	
-			
+    main()			
