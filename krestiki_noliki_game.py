@@ -1,6 +1,28 @@
 def main():
     play()
 
+# Запуск игры
+def play():    
+    field_size = get_field_size()
+    field = fill_field(field_size)
+    show_field(field_size, field)
+    gamer = 'O'
+    step_remain = field_size**2		
+    while True:
+        if gamer == 'X':
+            gamer = 'O'
+        else:
+            gamer = 'X'
+        step_remain = move(gamer, step_remain, field_size, field)
+        show_field(field_size, field)
+        if check_win(gamer, field_size, field):
+            print('Игра окончена')
+            print('Победил игрок', gamer)	
+            break	
+        elif check_draw(step_remain):
+            print('Ходы закончились. Ничья!')
+            break
+
 	
 # Функция запроса размера игрового поля
 def get_field_size():
@@ -15,12 +37,12 @@ def get_field_size():
 
 			
 # Заполнение игрового поля		
-def fill_field():
+def fill_field(field_size):
     return [['-'] * field_size for _ in range(field_size)]			
 			
 
 # Процедура вызова поля на экран
-def show_field():
+def show_field(field_size, field):
     for i in range(field_size + 1):
         print(i, end=' ')
     print()
@@ -28,38 +50,21 @@ def show_field():
         print(row + 1, *field[row])			
 	
 	
-# Запуск игры
-def play():    
-    gamer = 'O'
-    step_remain = field_size**2		
-    while True:
-        if gamer == 'X':
-            gamer = 'O'
-        else:
-            gamer = 'X'
-        step_remain = move(gamer, step_remain)
-        show_field()
-        if check_win(gamer):
-            print('Игра окончена')
-            print('Победил игрок', gamer)	
-            break	
-        elif check_draw(step_remain):
-            print('Ходы закончились. Ничья!')
-            break
+
 
 # Функция проверки выиграл игрок или нет
-def check_win(player):
+def check_win(player, field_size, field):
     trans_field = [[field[col][row] for col in range(field_size)] for row in range(field_size)]
     #check_draw()
     return any([
 		check_vertical_gorizontal(field, player),
         check_vertical_gorizontal(trans_field, player),		
-        check_diagonal(player),
+        check_diagonal(player, field_size, field),
     ])
 
 	
 # Проверка по диагоналям
-def check_diagonal(pl):
+def check_diagonal(pl, field_size, field):
     u_d, d_u = [], []
     for x in range(field_size):
         u_d.append(field[x][x] == pl)
@@ -78,7 +83,7 @@ def check_draw(steps):
 
 	
 # Процедура хода и возврата количества оставшихся ходов
-def move(player, max_steps):
+def move(player, max_steps, field_size, field):
     while True:
         while True:
             lst = input(
@@ -109,7 +114,4 @@ def check_coordinates_range(coord, field_size):
     return coord in range(field_size)
 	
 if __name__ == '__main__':
-    field_size = get_field_size()
-    field = fill_field()
-    show_field()
     main()			
